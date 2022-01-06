@@ -24,7 +24,7 @@ UNZIPFF = temp{1};
 movefile(UNZIPFF,EigerFuncFF)
 
 function LocalVerInfo = GetLocalVerInfo()
-if exist(fullfile(pwd,'VerInfo.mat'),'file')
+if exist(fullfile(pwd,'VerInfo'),'file')
     VerFP = fullfile(pwd,'VerInfo');
 elseif  exist(fullfile(pwd,'@EigerFunc','VerInfo'),'file')
     VerFP = fullfile(pwd,'@EigerFunc','VerInfo');
