@@ -10,18 +10,26 @@ if LastVerCheckResult
 else
     EigerFuncAutoUpdate();
     fprintf('EigerFunc auto update from %s to %s\n',LocalVerInfo.Version,githubVerInfo.Version)
-    EigerFuncAutoUpdate();
 end
+EigerFuncAutoUpdate();
 
 function EigerFuncAutoUpdate()
-if exist(fullfile(pwd,'EigerFun'),'dir')
-    EigerFuncFF = fullfile(pwd,'EigerFun');
-elseif  exist(fullfile(pwd,'@EigerFunc'),'dir')
+if exist(fullfile(pwd,'@EigerFunc'),'dir')
     EigerFuncFF = fullfile(pwd,'@EigerFunc');
+else
+    return
 end
-temp = unzip('https://github.com/github-ywtsai/EigerFunc/archive/refs/heads/master.zip',pwd);
-UNZIPFF = temp{1};
-movefile(UNZIPFF,EigerFuncFF)
+
+url = 'https://github.com/github-ywtsai/EigerFunc/archive/refs/heads/master.zip';
+[~,urlstatus] = urlread(url);
+if urlstatus
+    temp = unzip(url,pwd);
+    UNZIPFF = temp{1};
+    movefile(UNZIPFF,EigerFuncFF)
+else
+    return
+    % url file doesn't exist
+end
 
 function LocalVerInfo = GetLocalVerInfo()
 if exist(fullfile(pwd,'VerInfo'),'file')
