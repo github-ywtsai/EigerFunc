@@ -1,5 +1,6 @@
-function MasterInfo =ReadMaster(MasterFP)
+function MasterInfo =ReadMaster(varargin)
 
+MasterFP = varargin{1};
 [MasterFF,MasterFN] = AnalyzeMasterFP(MasterFP);
 
 MasterInfo.MasterFF = MasterFF;
@@ -17,7 +18,15 @@ MasterInfo.Wavelength = double(h5read(MasterFP,'/entry/instrument/beam/incident_
 MasterInfo.BeamCenterX= round(double(h5read(MasterFP,'/entry/instrument/detector/beam_center_x')));
 MasterInfo.BeamCenterY= round(double(h5read(MasterFP,'/entry/instrument/detector/beam_center_y')));
 MasterInfo.PixelMask = logical(transpose(h5read(MasterFP,'/entry/instrument/detector/detectorSpecific/pixel_mask')));
-MasterInfo.Additional = [];
+
+if nargin ~= 1
+    AddParasNum = (nargin - 1)/2;
+    for AddParasSN = 1:AddParasNum
+        FieldName = varargin{AddParasSN*2};
+        FieldValue = varargin{AddParasSN*2 + 1};
+        MasterInfo.(FieldName) = FieldValue;
+    end
+end
 
 temp = h5info(MasterFP,'/entry/data');
 Links = temp.Links;
