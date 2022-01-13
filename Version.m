@@ -14,8 +14,8 @@ end
 EigerFuncAutoUpdate();
 
 function EigerFuncAutoUpdate()
-if exist(fullfile(pwd,'@EigerFunc'),'dir')
-    EigerFuncFF = fullfile(pwd,'@EigerFunc');
+if exist(fullfile(pwd,'+EigerFunc'),'dir')
+    EigerFuncFF = fullfile(pwd,'+EigerFunc');
 else
     return
 end
@@ -34,8 +34,8 @@ end
 function LocalVerInfo = GetLocalVerInfo()
 if exist(fullfile(pwd,'VerInfo'),'file')
     VerFP = fullfile(pwd,'VerInfo');
-elseif  exist(fullfile(pwd,'@EigerFunc','VerInfo'),'file')
-    VerFP = fullfile(pwd,'@EigerFunc','VerInfo');
+elseif  exist(fullfile(pwd,'+EigerFunc','VerInfo'),'file')
+    VerFP = fullfile(pwd,'+EigerFunc','VerInfo');
 end
 
 Temp = load(VerFP,'-mat');
