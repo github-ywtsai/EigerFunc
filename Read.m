@@ -28,7 +28,6 @@ MaskData = false;
 % option
 if nargin ~= 1
     OptionCheck = cellfun(@(X)ischar(X),varargin);
-    OptionNum = sum(OptionCheck)-1;
     OptionIdx = find(OptionCheck);
     OptionIdx(OptionIdx == 1) = []; % remove the master file part
     for OptionSN = OptionIdx
