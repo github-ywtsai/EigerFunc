@@ -7,9 +7,15 @@ function Output = Read(varargin)
 % Y: y range
 % PixelMask: output PixelMask
 % Masked: output Masked data unsing PixelMask
+% return empty [] when error occurs
+
+Output = []; % if error occurs, return empty.
 
 MasterFP = varargin{1};
-
+if ~exist(MasterFP,'File')
+    fprintf('\nMaster file ''%s'' does not exist.\n',MasterFP)
+    return
+end
 MasterInfo = EigerFunc.ReadMaster(MasterFP);
 
 % default setting for options
