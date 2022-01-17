@@ -1,6 +1,6 @@
 function Output = Read(varargin)
 % useage:
-% Read(Master File Path [, option1, value1, option2, value2,.....])
+% Read(Master File Path [, option1[, value1], option2[, value2],.....])
 % option:
 % sheet: for specific required data sheet
 % X: x range
@@ -27,29 +27,32 @@ MaskData = false;
 
 % option
 if nargin ~= 1
-    Temp = cellfun(@(X)ischar(X),varargin);
-    OptionNum = sum(Temp)-1;
-    for OptionSN = 1:OptionNum
-        OptionIdx = 1 + OptionSN*2-1;
-        OptionType = lower(varargin{OptionIdx});
-        OptionValue = varargin{OptionIdx+1};
+    OptionCheck = cellfun(@(X)ischar(X),varargin);
+    OptionNum = sum(OptionCheck)-1;
+    OptionIdx = find(OptionCheck);
+    OptionIdx(OptionIdx == 1) = []; % remove the master file part
+    for OptionSN = OptionIdx
+        OptionType = lower(varargin{OptionSN});
         switch OptionType
             case 'sheet'
+                OptionValue = varargin{OptionSN+1};
                 RequiredDataSheet = OptionValue;
             case 'x'
+                OptionValue = varargin{OptionSN+1};
                 if isempty(OptionValue)
                     OptionValue = [1,MasterInfo.XPixelsInDetector];
                 end
                 XRange = OptionValue;
             case 'y'
+                OptionValue = varargin{OptionSN+1};
                 if isempty(OptionValue)
                     OptionValue = [1,MasterInfo.YPixelsInDetector];
                 end
                 YRange = OptionValue;
             case 'pixelmask'
-                RequirePixelMask = OptionValue;
+                RequirePixelMask = true;
             case 'masked'
-                MaskData = OptionValue;
+                MaskData = true;
         end
     end
 end
